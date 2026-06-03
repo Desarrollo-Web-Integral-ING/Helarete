@@ -6,119 +6,189 @@
     <title>Registro de Usuario</title>
 
     <style>
-      /* 1. Variables de CSS y Reset Básico */
+      /* 1. Variables de CSS y paleta ampliada */
       :root {
         --primary-color: #007bff;
         --primary-hover: #0056b3;
         --secondary-bg: #f8f9fa;
         --secondary-hover: #e2e6ea;
         --text-color: #333;
+        --text-muted: #6c757d;
         --border-color: #ccc;
         --focus-color: rgba(0, 123, 255, 0.25);
+        --success-color: #28a745;
+        --error-color: #dc3545;
       }
 
       * {
-        box-sizing: border-box; /* Crucial: asegura que el padding no rompa el ancho del 100% */
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
 
       body {
-        font-family: system-ui, -apple-system, Arial, sans-serif; /* Tipografía más moderna */
-        background: #f4f7f6;
+        font-family: system-ui, -apple-system, Arial, sans-serif;
+        /* Fondo con gradiente moderno y suave */
+        background: linear-gradient(135deg, #f4f7f6 0%, #e0eafc 100%);
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh; /* min-height en lugar de height para evitar recortes en pantallas pequeñas */
+        min-height: 100vh;
         color: var(--text-color);
+        padding: 20px; /* Previene que la tarjeta toque los bordes en móviles */
       }
 
       .registro-card {
         background: white;
-        padding: 30px;
-        border-radius: 12px;
+        padding: 40px 30px;
+        border-radius: 16px; /* Bordes un poco más redondeados */
         width: 100%;
-        max-width: 350px; /* Mejor manejo de anchos en móviles */
-        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08); /* Sombra más suave y moderna */
+        max-width: 380px; /* Ligeramente más ancho para respirar mejor */
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.08); /* Sombra más profunda y difuminada */
+        transition: transform 0.3s ease;
+      }
+
+      .registro-card:hover {
+        transform: translateY(-2px); /* Micro-interacción al pasar el mouse */
       }
 
       .registro-card h2 {
         text-align: center;
-        margin-bottom: 20px;
-        font-weight: 600;
+        margin-bottom: 25px;
+        font-weight: 700;
+        color: #1a1a1a;
       }
 
-      /* 2. Agrupación de inputs para mejor espaciado */
+      /* 2. Agrupación de inputs */
       .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 18px;
+        position: relative;
       }
 
       label {
         display: block;
-        font-size: 0.9rem;
-        margin-bottom: 5px;
-        font-weight: 500;
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #555;
       }
 
-      input {
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
         width: 100%;
-        padding: 12px;
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        font-size: 1rem;
-        transition: border-color 0.3s, box-shadow 0.3s;
+        padding: 12px 14px;
+        border: 1.5px solid var(--border-color); /* Borde un poco más definido */
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
       }
 
-      /* 3. Estado de enfoque (Focus) para accesibilidad */
+      /* 3. Estados de validación y enfoque */
       input:focus {
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px var(--focus-color);
       }
 
+      /* Feedback visual si el campo es válido/inválido (solo cuando no está vacío) */
+      input:not(:placeholder-shown):valid {
+        border-color: var(--success-color);
+      }
+      
+      input:not(:placeholder-shown):invalid {
+        border-color: var(--error-color);
+      }
+
+      /* Checkbox de términos */
+      .terms-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .terms-group input {
+        cursor: pointer;
+      }
+
+      .terms-group a {
+        color: var(--primary-color);
+        text-decoration: none;
+      }
+
+      .terms-group a:hover {
+        text-decoration: underline;
+      }
+
       /* 4. Estilos de botones diferenciados */
       .button-group {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin-top: 20px;
+        gap: 12px;
       }
 
       button {
         width: 100%;
-        padding: 12px;
+        padding: 14px;
         border: none;
-        border-radius: 6px;
+        border-radius: 8px;
         font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
-        transition: background-color 0.3s;
+        transition: all 0.2s ease;
       }
 
       .btn-primary {
         background: var(--primary-color);
         color: white;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
       }
 
       .btn-primary:hover {
         background: var(--primary-hover);
+        transform: translateY(-1px);
+      }
+
+      .btn-primary:active {
+        transform: translateY(1px); /* Efecto de clic real */
       }
 
       .btn-secondary {
         background: var(--secondary-bg);
         color: var(--text-color);
-        border: 1px solid var(--border-color);
+        border: 1.5px solid var(--border-color);
       }
 
       .btn-secondary:hover {
         background: var(--secondary-hover);
+      }
+
+      /* Enlace al login */
+      .login-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .login-link a {
+        color: var(--primary-color);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .login-link a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
 
   <body>
     <div class="registro-card">
-      <h2>Registro</h2>
+      <h2>Crear Cuenta</h2>
 
       <form action="#" method="POST">
         <div class="form-group">
@@ -133,19 +203,28 @@
 
         <div class="form-group">
           <label for="password">Contraseña</label>
-          <input type="password" id="password" name="password" placeholder="••••••••" required />
+          <input type="password" id="password" name="password" placeholder="••••••••" minlength="8" required />
         </div>
 
         <div class="form-group">
           <label for="confirm-password">Confirmar contraseña</label>
-          <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" required />
+          <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" minlength="8" required />
+        </div>
+
+        <div class="terms-group">
+          <input type="checkbox" id="terms" name="terms" required />
+          <label for="terms" style="margin-bottom: 0;">Acepto los <a href="#">Términos y Condiciones</a></label>
         </div>
 
         <div class="button-group">
           <button type="submit" class="btn-primary">Registrarse</button>
-          <button type="button" class="btn-secondary">Salir</button>
+          <button type="button" class="btn-secondary">Cancelar</button>
         </div>
       </form>
+
+      <div class="login-link">
+        ¿Ya tienes una cuenta? <a href="#">Inicia sesión aquí</a>
+      </div>
     </div>
   </body>
 </html>
